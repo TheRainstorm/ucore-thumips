@@ -9,7 +9,7 @@ V       := @
 GCCPREFIX:=mipsel-linux-gnu-
 
 QEMU:= /opt/mipsel-softmmu/qemu-system-mipsel
-QEMUOPTS:= -M ls232 -m 128 -no-reboot -serial stdio -parallel null
+QEMUOPTS:= -M ls232 -m 128 -no-reboot -serial stdio -parallel null -nographic -monitor none
 # You should compile qemu for ls232 cpu from https://gitee.com/loongsonlab/qemu
 # Every tools except qemu can be installed correctly from debian bullseye repo
 
@@ -30,6 +30,7 @@ GDB		:= gdb-multiarch
 THUMIPSCC		:= ./thumips-cc
 CLANG := clang
 CC :=$(GCCPREFIX)gcc
+#-G0 disable debug ?
 CFLAGS	:= -fno-builtin-fprintf -fno-builtin -nostdlib  -nostdinc -g  -EL -G0 -fno-delayed-branch -Wa,-O0 -fno-pic -mno-abicalls -mno-shared -mfp32 -ggdb -gstabs
 CTYPE	:= c S
 
@@ -115,6 +116,7 @@ all: checkdirs boot/loader.bin $(OBJDIR)/ucore-kernel-initrd
 $(shell mkdir -p $(DEP_DIR))
 
 
+#下面两个规则没有用到
 obj/ucore-kernel:   $(OBJ) tools/kernel.ld
 	@echo LINK $@
 	$(LD) -nostdlib -n -G 0 -static -T tools/kernel.ld $(OBJ) -o $@
@@ -129,6 +131,7 @@ $(DEPDIR)/%.d: $(SRCDIR)/%.c
 	@set -e; rm -f $@; \
 		$(CC) -MM -MT "$(OBJDIR)/$*.o $@" $(CFLAGS) $(INCLUDES) $< > $@; 
 
+#why -mips1 for c file and -mips32 for asm file?
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c -mips1 $(INCLUDES) $(CFLAGS) $(MACH_DEF) $<  -o $@
 
@@ -176,6 +179,7 @@ endef
 
 $(foreach bdir,$(USER_APP_BINS),$(eval $(call make-user-app,$(bdir))))
 
+#编译USER_OBJ和USER_LIB_OBJ都默认使用下面的规则
 $(USER_OBJDIR)/%.o: $(USER_SRCDIR)/%.c
 	$(CC) -c -mips1  $(USER_INCLUDE) -I$(SRCDIR)/include $(CFLAGS)  $<  -o $@
 
@@ -190,6 +194,9 @@ ROOTFS_IMG:= $(USER_OBJDIR)/initrd.img
 $(TOOL_MKSFS): tools/mksfs.c
 	$(HOSTCC) $(HOSTCFLAGS) -o $@ $^
 
+#$USER_APP_BIN     \    mkfs
+#user/_archive/* ---\ ------- obj/user/initrd.img -- initrd.img.o --\ 
+#				  								 	 $OBJ -----------\-- ucore-kernel-initrd
 $(OBJDIR)/ucore-kernel-initrd:  $(BUILD_DIR) $(TOOL_MKSFS) $(OBJ) $(USER_APP_BINS) tools/kernel.ld
 	rm -rf $(ROOTFS_DIR) $(ROOTFS_IMG)
 	mkdir $(ROOTFS_DIR)
