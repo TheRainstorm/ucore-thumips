@@ -273,7 +273,7 @@ page_remove_pte(pde_t *pgdir, uintptr_t la, pte_t *ptep) {
     *ptep = 0;
 	}
 		// flush tlb
-  tlb_invalidate_all();
+  tlb_invalidate_all();   //flush全部tlb效率太低了，可以改成flush对应la地址的tlb项
 }
 
 //page_remove - free an Page which is related linear address la and has an validated pte

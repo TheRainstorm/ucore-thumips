@@ -27,7 +27,7 @@
 // invalidate both TLB 
 // (clean and flush, meaning we write the data back)
 void
-tlb_invalidate(pde_t *pgdir, uintptr_t la) {
+tlb_invalidate(pde_t *pgdir, uintptr_t la) {  //需要优化
   tlb_invalidate_all();
 }
 
