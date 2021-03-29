@@ -35,7 +35,7 @@ delay(void) {
 #define COM_LSR_TSRE    0x40    // Transmitter off
 
 
-static bool serial_exists = 0;
+static bool serial_exists = 0;  //serial_have_inited?
 
 static void
 serial_init(void) {

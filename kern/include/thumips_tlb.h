@@ -65,7 +65,7 @@ static inline void tlb_refill(uint32_t badaddr, pte_t *pte)
 {
   if(!pte)
     return ;
-  if(badaddr & (1<<12))
+  if(badaddr & (1<<12))   //判断奇偶，之后一次映射两页
     pte--;
   tlb_replace_random(0, badaddr & THUMIPS_TLB_ENTRYH_VPN2_MASK, 
       pte2tlblow(*pte), pte2tlblow(*(pte+1)));

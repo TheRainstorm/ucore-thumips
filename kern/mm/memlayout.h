@@ -5,7 +5,7 @@
 
 #define KERNBASE            0x80000000
 
-#define KMEMSIZE            (32 << 20)                 // 512M the maximum amount of physical memory
+#define KMEMSIZE            (32 << 20)                 // 512M the maximum amount of physical memory    //32M ?
 
 #define KERNTOP             (KERNBASE + KMEMSIZE)
 

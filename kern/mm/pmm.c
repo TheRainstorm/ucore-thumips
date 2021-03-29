@@ -293,6 +293,13 @@ page_remove(pde_t *pgdir, uintptr_t la) {
 //  perm:  the permission of this Page which is setted in related pte
 // return value: always 0
 //note: PT is changed, so the TLB need to be invalidate 
+/*
+作用：将虚拟地址la映射到page对应的物理页上
+步骤：
+1. 根据虚拟地址la查找到二级页表项ptep
+2. 如果原本ptep已经映射到另一个物理页上了，则删除该映射（有可能导致回收物理页）
+3. 设置ptep映射到新物理页
+*/
 int
 page_insert(pde_t *pgdir, struct Page *page, uintptr_t la, uint32_t perm) {
     pte_t *ptep = get_pte(pgdir, la, 1);
@@ -409,7 +416,7 @@ check_boot_pgdir(void) {
 
   //kprintf("\nHERE\n");
 
-  assert(*(int*)0x100 == 0x1234);
+  assert(*(int*)0x100 == 0x1234);   //页表中有映射关系，而tlb中没有，tlb refill
   const char *str = "ucore: Hello world!!";
   strcpy((void *)0x100, str);
   assert(strcmp((void *)0x100, (void *)(0x100 + PGSIZE)) == 0);
@@ -418,8 +425,10 @@ check_boot_pgdir(void) {
   assert(strlen((const char *)0x100) == 0);
 
   free_page(p);
-  free_page(pa2page(PDE_ADDR(boot_pgdir[0])));
+  free_page(pa2page(PDE_ADDR(boot_pgdir[0])));    //直接把boot_pgdir[0]指向的二级页表删除了，因此0x100和0x100+PGSIZE两个映射关系都不存在了。
   boot_pgdir[0] = 0;
+  // page_remove(boot_pgdir, 0x100);              //推荐使用page_remove
+  // page_remove(boot_pgdir, 0x100 + PGSIZE);
   tlb_invalidate_all();
 
     kprintf("check_boot_pgdir() succeeded!\n");

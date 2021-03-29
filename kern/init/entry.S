@@ -21,7 +21,7 @@ kernel_entry:
 reset:
   /* from u-boot */
 	/* Clear watch registers */
-	mtc0	$zero, CP0_WATCHLO
+	mtc0	$zero, CP0_WATCHLO    #未必实现了watch cp0寄存器
 	mtc0	$zero, CP0_WATCHHI
 
 	/* WP(Watch Pending), SW0/1 should be cleared */
@@ -33,14 +33,14 @@ reset:
   nop
   .word _gp
 1:
-  lw $gp, 0($ra)
+  lw $gp, 0($ra)        #why not la $gp _gp?
   la $sp, bootstacktop
 #setup ram exception
   la   $t0, __exception_vector
 #TODO
-  mtc0 $t0, $15, 1 
+  mtc0 $t0, $15, 1      # set EBase
 
-  mfc0 $t0, CP0_STATUS
+  mfc0 $t0, CP0_STATUS  # clear BEV
   li   $t1, ~ST0_BEV
   and  $t0, $t0, $t1
   mtc0 $t0, CP0_STATUS

@@ -336,7 +336,7 @@ check_pgfault(void) {
 
   int i, sum = 0;
   for (i = 0; i < 100; i ++) {
-    *(char *)(addr + i) = i;
+    *(char *)(addr + i) = i;    //page fault
     sum += i;
   }
   for (i = 0; i < 100; i ++) {
@@ -384,7 +384,7 @@ do_pgfault(struct mm_struct *mm, uint32_t error_code, uintptr_t addr) {
       }
       break;
     case 1: /* read, present */
-      kprintf("read, present in do_pgfault failed\n");
+      kprintf("read, present in do_pgfault failed\n");    //can't get here, because it can't be present
       goto failed;
     case 0: /* read, not present */
       if (!(vma->vm_flags & (VM_READ | VM_EXEC))) {
