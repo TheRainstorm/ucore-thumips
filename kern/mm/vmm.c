@@ -384,7 +384,7 @@ do_pgfault(struct mm_struct *mm, uint32_t error_code, uintptr_t addr) {
       }
       break;
     case 1: /* read, present */
-      kprintf("read, present in do_pgfault failed\n");    //can't get here, because it can't be present
+      kprintf("read, present in do_pgfault failed\n");    //这里是不可能到达的
       goto failed;
     case 0: /* read, not present */
       if (!(vma->vm_flags & (VM_READ | VM_EXEC))) {

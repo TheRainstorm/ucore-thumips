@@ -115,7 +115,7 @@ extern pde_t *current_pgdir;
 static inline int get_error_code(int write, pte_t *pte)
 {
   int r = 0;
-  if(pte!=NULL && ptep_present(pte))
+  if(pte!=NULL && ptep_present(pte))  //因为pagefault的条件(pte==NULL || ptep_invalid(pte))，这里根本不可能为真。返回值只可能是2或0
     r |= 0x01;
   if(write)
     r |= 0x02;
@@ -137,7 +137,7 @@ pgfault_handler(struct trapframe *tf, uint32_t addr, uint32_t error_code) {
   }
   struct mm_struct *mm;
   if (check_mm_struct != NULL) {
-    assert(current == idleproc);
+    assert(current == idleproc);  //这里应该是current == NULL。不过因为idleproc此时也为NULL，故不会产生错误
     mm = check_mm_struct;
   }
   else {
