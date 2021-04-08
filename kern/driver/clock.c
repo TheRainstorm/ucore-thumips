@@ -29,7 +29,7 @@ int clock_int_handler(void * data)
 void
 clock_init(void) {
   reload_timer(); 
-  pic_enable(TIMER0_IRQ);
+  // pic_enable(TIMER0_IRQ);
   kprintf("++setup timer interrupts\n");
 }
 
