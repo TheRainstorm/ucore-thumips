@@ -78,7 +78,7 @@ outw(uint32_t port, uint32_t data) {
 #define ISA_BASE        0xbfd00000
 #ifdef MACH_FPGA
 #define COM1            (ISA_BASE+0x140000)
-#define COM1_IRQ        4
+#define COM1_IRQ        3
 #define COM1_BAUD_DDL   0x23
 #else /*QEMU*/
 #define COM1            (ISA_BASE+0x3F8)
