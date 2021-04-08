@@ -2,5 +2,9 @@
 boot/loader
 *.d
 obj/
-tools/mkfs
+tools/mksfs
 
+boot/loader.bin
+.vscode/settings.json
+sh.s
+core

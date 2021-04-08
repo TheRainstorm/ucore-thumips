@@ -152,7 +152,14 @@ clean:
 	-rm -rf $(OBJDIR)
 
 qemu: $(OBJDIR)/ucore-kernel-initrd
+	scp obj/ucore-kernel-initrd JinyangYuan@yfy2:D:\\dev\\0_kernel
 	$(QEMU) $(QEMUOPTS) -kernel $(OBJDIR)/ucore-kernel-initrd
+
+qemu2: $(OBJDIR)/ucore-kernel-initrd
+	$(QEMU) $(QEMUOPTS) -kernel $(OBJDIR)/ucore-kernel-initrd -S -s
+
+gdb:
+	$(GDB) -q $(OBJDIR)/ucore-kernel-initrd
 
 debug: $(OBJDIR)/ucore-kernel-initrd
 	@$(TERMINAL) $(TERMINALOPT) "sh -c \"sleep 1;$(GDB) $(OBJDIR)/ucore-kernel-initrd -q\""
@@ -210,7 +217,8 @@ $(OBJDIR)/ucore-kernel-initrd:  $(BUILD_DIR) $(TOOL_MKSFS) $(OBJ) $(USER_APP_BIN
 	@echo LINK $@
 	$(LD) -nostdlib -n -G 0 -static -T tools/kernel.ld $(OBJ) \
 				 $(USER_OBJDIR)/initrd.img.o -o $@
-	$(OBJDUMP) -S $@ > $(OBJDIR)/kernel.asm
+	#disassemble the contents of all sections, not just those expected to contain instructions
+	$(OBJDUMP) -D $@ > $(OBJDIR)/kernel.asm	
 	rm -rf $(ROOTFS_DIR)
 
 boot/loader.bin: boot/bootasm.S
