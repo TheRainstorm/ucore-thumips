@@ -1020,7 +1020,72 @@ proc_init(void) {
 // cpu_idle - at the end of kern_init, the first kernel thread idleproc will do below works
 void
 cpu_idle(void) {
+    int c;
     while (1) {
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+                c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
+        c = 0;
         if (current->need_resched) {
             schedule();
         }
