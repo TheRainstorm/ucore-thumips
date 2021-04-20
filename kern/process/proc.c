@@ -692,6 +692,7 @@ load_icode(int fd, int argc, char **kargv) {
     uint32_t status = read_c0_status();
     status &= ~ST0_KSU;
     status |= KSU_USER;
+    status |= ST0_IE;      //enable IE
     status |= ST0_EXL;
     tf->tf_status = status;
     tf->tf_regs.reg_r[MIPS_REG_A0] = argc;
