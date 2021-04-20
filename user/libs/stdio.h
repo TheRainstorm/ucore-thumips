@@ -7,6 +7,7 @@
 /* kern/libs/stdio.c */
 int vcprintf(const char *fmt, va_list ap);
 int cprintf(const char *fmt, ...);
+#define printf cprintf
 void cputchar(int c);
 int getchar(void);
 

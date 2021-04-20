@@ -29,12 +29,12 @@ GDB		:= gdb-multiarch
 
 THUMIPSCC		:= ./thumips-cc
 CLANG := clang
-CC :=$(GCCPREFIX)gcc
+export CC :=$(GCCPREFIX)gcc
 #-G0 disable debug ?
 CFLAGS	:= -fno-builtin-fprintf -fno-builtin -nostdlib  -nostdinc -g  -EL -G0 -fno-delayed-branch -Wa,-O0 -fno-pic -mno-abicalls -mno-shared -mfp32 -ggdb -gstabs
 CTYPE	:= c S
 
-LD      := $(GCCPREFIX)ld
+export LD      := $(GCCPREFIX)ld
 AS      := $(GCCPREFIX)as -EL -g -mips32
 AR      := $(GCCPREFIX)ar
 LDFLAGS	+= -nostdlib
@@ -77,6 +77,8 @@ INCLUDES  += -I$(SRCDIR)/include
 ifeq  ($(ON_FPGA), y)
 USER_APPLIST:= sh ls cat
 INITRD_BLOCK_CNT:=700 
+USER_APPLIST2:= coremark
+INITRD_BLOCK_CNT:=2000 
 FPGA_LD_FLAGS += -S
 MACH_DEF := -DMACH_FPGA
 else
@@ -87,17 +89,18 @@ MACH_DEF := -DMACH_QEMU
 endif
 
 USER_SRCDIR := user
-USER_OBJDIR := $(OBJDIR)/$(USER_SRCDIR)
+export USER_OBJDIR := $(OBJDIR)/$(USER_SRCDIR)
 USER_LIB_OBJDIR := $(USER_OBJDIR)/libs
 USER_INCLUDE := -I$(USER_SRCDIR)/libs
 
 USER_APP_BINS:= $(addprefix $(USER_OBJDIR)/, $(USER_APPLIST))
+USER_APP_BINS2:= $(addprefix $(USER_OBJDIR)/, $(USER_APPLIST2))
 
 USER_LIB_SRCDIR := $(USER_SRCDIR)/libs
 USER_LIB_SRC := $(foreach sdir,$(USER_LIB_SRCDIR),$(wildcard $(sdir)/*.c))
 USER_LIB_OBJ := $(patsubst $(USER_LIB_SRCDIR)/%.c, $(USER_LIB_OBJDIR)/%.o, $(USER_LIB_SRC))
 USER_LIB_OBJ += $(USER_LIB_OBJDIR)/initcode.o
-USER_LIB    := $(USER_OBJDIR)/libuser.a
+export USER_LIB    := $(USER_OBJDIR)/libuser.a
 
 BUILD_DIR   += $(USER_LIB_OBJDIR)
 BUILD_DIR   += $(USER_OBJDIR)
@@ -150,9 +153,10 @@ clean:
 	-rm -rf $(DEPDIR)
 	-rm -rf boot/loader.o boot/loader boot/loader.bin
 	-rm -rf $(OBJDIR)
+	make -C user/app/coremark clean
 
 qemu: $(OBJDIR)/ucore-kernel-initrd
-	scp obj/ucore-kernel-initrd JinyangYuan@yfy2:D:\\dev\\0_kernel
+	# scp obj/ucore-kernel-initrd JinyangYuan@yfy2:D:\\dev\\0_kernel
 	$(QEMU) $(QEMUOPTS) -kernel $(OBJDIR)/ucore-kernel-initrd
 
 qemu2: $(OBJDIR)/ucore-kernel-initrd
@@ -193,6 +197,16 @@ $(USER_OBJDIR)/%.o: $(USER_SRCDIR)/%.c
 $(USER_OBJDIR)/%.o: $(USER_SRCDIR)/%.S
 	$(CC) -mips32 -c -fno-pic -mno-abicalls -mno-shared -D__ASSEMBLY__ $(USER_INCLUDE) -I$(SRCDIR)/include -g -EL -G0  $<  -o $@
 
+# app list 2
+define make-user-app2
+$1: $(BUILD_DIR) $(USER_LIB)
+	make -C $(USER_SRCDIR)/app/$(shell echo $1|awk -F '/' '{ print $$NF }')
+endef
+
+$(foreach bdir,$(USER_APP_BINS2),$(eval $(call make-user-app2,$(bdir))))
+
+coremark:
+	make -C user/app/coremark
 
 # filesystem
 TOOL_MKSFS := tools/mksfs
@@ -204,10 +218,11 @@ $(TOOL_MKSFS): tools/mksfs.c
 #$USER_APP_BIN     \    mkfs
 #user/_archive/* ---\ ------- obj/user/initrd.img -- initrd.img.o --\ 
 #				  								 	 $OBJ -----------\-- ucore-kernel-initrd
-$(OBJDIR)/ucore-kernel-initrd:  $(BUILD_DIR) $(TOOL_MKSFS) $(OBJ) $(USER_APP_BINS) tools/kernel.ld
+$(OBJDIR)/ucore-kernel-initrd:  $(BUILD_DIR) $(TOOL_MKSFS) $(OBJ) $(USER_APP_BINS) $(USER_APP_BINS2) tools/kernel.ld
 	rm -rf $(ROOTFS_DIR) $(ROOTFS_IMG)
 	mkdir $(ROOTFS_DIR)
 	cp $(USER_APP_BINS) $(ROOTFS_DIR)
+	cp $(USER_APP_BINS2) $(ROOTFS_DIR)
 	cp -r $(USER_SRCDIR)/_archive/* $(ROOTFS_DIR)/
 	dd if=/dev/zero of=$(ROOTFS_IMG) count=$(INITRD_BLOCK_CNT)
 	#touch $(ROOTFS_IMG)
