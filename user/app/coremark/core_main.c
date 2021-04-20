@@ -251,7 +251,6 @@ for (i = 0; i < MULTITHREAD; i++)
             iterate(&results[0]);
             stop_time();
             secs_passed = time_in_secs(get_time());
-            printf("secs_passed: %d\n",secs_passed);
         }
         /* now we know it executes for at least 1 sec, set actual run time at
          * about 10 secs */

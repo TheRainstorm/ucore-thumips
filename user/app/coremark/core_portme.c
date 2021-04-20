@@ -77,7 +77,6 @@ void
 start_time(void)
 {
     GETMYTIME(&start_time_val);
-    printf("start time %d\n", start_time_val);
 }
 /* Function : stop_time
         This function will be called right after ending the timed portion of the
@@ -91,7 +90,6 @@ void
 stop_time(void)
 {
     GETMYTIME(&stop_time_val);
-    printf("stop time %d\n", stop_time_val);
 }
 /* Function : get_time
         Return an abstract "ticks" number that signifies time on the system.
