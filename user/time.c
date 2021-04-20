@@ -3,21 +3,21 @@
 
 int
 main(void) {
-    unsigned int tik, tok;
+    unsigned int tik, tok, tok_p;
     
     tik = gettime_msec();
-    cprintf("tik: %d\n", tik);
-    for(int j=0; j<10; j++){
-        for(int i=0; i<10000; i++){
-            for(int i=0; i<10000; i++){
-                ;
+    // cprintf("tik: %d\n", tik);
+    tok = gettime_msec();
+    for(int i=0; i<10; i++){
+        while(1){
+            tok_p = tok;
+            tok = gettime_msec();
+            if(tok != tok_p && (tok - tik)%100==0){
+                // cprintf("tok: %d\n", tok);
+                break;
             }
         }
-        tok = gettime_msec();
-        cprintf("tok: %d\n", tok);
+        cprintf("%d!\n", 9-i);
     }
-
-    cprintf("use %04d msecs.\n", tok - tik);
     return 0;
 }
-
