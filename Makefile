@@ -75,8 +75,7 @@ INCLUDES  := $(addprefix -I,$(SRC_DIR))
 INCLUDES  += -I$(SRCDIR)/include
 
 ifeq  ($(ON_FPGA), y)
-USER_APPLIST:= sh ls cat
-INITRD_BLOCK_CNT:=700 
+USER_APPLIST:= sh ls cat sleep time
 USER_APPLIST2:= coremark
 INITRD_BLOCK_CNT:=2000 
 FPGA_LD_FLAGS += -S
