@@ -182,7 +182,7 @@ $(USER_LIB): $(BUILD_DIR) $(USER_LIB_OBJ)
 define make-user-app
 $1: $(BUILD_DIR) $(addsuffix .o,$1) $(USER_LIB)
 	@echo LINK $$@
-	$(LD) $(FPGA_LD_FLAGS) -T $(USER_LIB_SRCDIR)/user.ld  $(addsuffix .o,$1) $(USER_LIB) -o $$@
+	$(LD) -T $(USER_LIB_SRCDIR)/user.ld  $(addsuffix .o,$1) $(USER_LIB) -o $$@
 	$(SED) 's/$$$$FILE/$(notdir $1)/g' tools/piggy.S.in > $(USER_OBJDIR)/piggy.S
 	$(AS) $(USER_OBJDIR)/piggy.S -o $$@.piggy.o
 endef

@@ -16,6 +16,25 @@ SECTIONS
     *(.rodata) *(.rodata.*) *(.gnu.linkonce.r*) *(.rodata1)
   }
 . = ALIGN(4096);
+  .stab : {
+      . = ALIGN(4);
+      PROVIDE(__STAB_BEGIN__ = .);
+      *(.stab)
+      PROVIDE(__STAB_END__ = .);
+      BYTE(0)     /* Force the linker to allocate space
+                 for this section */
+      . = ALIGN(4);
+  }
+
+  .stabstr : {
+      . = ALIGN(4);
+      PROVIDE(__STABSTR_BEGIN__ = .);
+      *(.stabstr)
+      PROVIDE(__STABSTR_END__ = .);
+      BYTE(0)     /* Force the linker to allocate space
+                 for this section */
+      . = ALIGN(4);
+  }
 .data    : 
 {
   *(.data)
