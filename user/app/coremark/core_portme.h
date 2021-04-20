@@ -42,20 +42,20 @@ Original Author: Shay Gal-on
         and implementation of functions thereof.
 */
 #ifndef USE_CLOCK
-#define USE_CLOCK 1
+#define USE_CLOCK 0
 #endif
 /* Configuration : HAS_STDIO
         Define to 1 if the platform has stdio.h.
 */
 #ifndef HAS_STDIO
-#define HAS_STDIO 0
+#define HAS_STDIO 1
 #endif
 /* Configuration : HAS_PRINTF
         Define to 1 if the platform has stdio.h and implements the printf
    function.
 */
 #ifndef HAS_PRINTF
-#define HAS_PRINTF 0
+#define HAS_PRINTF 1
 #endif
 
 /* Definitions : COMPILER_VERSION, COMPILER_FLAGS, MEM_LOCATION
@@ -91,6 +91,7 @@ typedef double         ee_f32;
 typedef unsigned char  ee_u8;
 typedef unsigned int   ee_u32;
 typedef ee_u32         ee_ptr_int;
+typedef unsigned int   size_t;  //self add
 typedef size_t         ee_size_t;
 #define NULL ((void *)0)
 /* align_mem :
@@ -205,6 +206,6 @@ void portable_fini(core_portable *p);
 #endif
 #endif
 
-int ee_printf(const char *fmt, ...);
+// int ee_printf(const char *fmt, ...);
 
 #endif /* CORE_PORTME_H */

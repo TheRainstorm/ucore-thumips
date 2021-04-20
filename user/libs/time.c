@@ -1,8 +1,8 @@
 #include <time.h>
 #include <syscall.h>
 
-size_t clock(void){
-    return sys_gettime_confreg();
+clock_t clock(void){
+    return (clock_t)sys_gettime_confreg();
 }
 
 void clock_reset(){

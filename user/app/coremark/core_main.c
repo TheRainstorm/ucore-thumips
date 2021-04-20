@@ -251,6 +251,7 @@ for (i = 0; i < MULTITHREAD; i++)
             iterate(&results[0]);
             stop_time();
             secs_passed = time_in_secs(get_time());
+            printf("iterations: %d, secs passed: %d\n", results[0].iterations/10, secs_passed);
         }
         /* now we know it executes for at least 1 sec, set actual run time at
          * about 10 secs */
@@ -355,8 +356,8 @@ for (i = 0; i < MULTITHREAD; i++)
     }
     total_errors += check_data_types();
     /* and report results */
-    ee_printf("CoreMark Size    : %lu\n", (long unsigned)results[0].size);
-    ee_printf("Total ticks      : %lu\n", (long unsigned)total_time);
+    ee_printf("CoreMark Size    : %d\n", (long unsigned)results[0].size);
+    ee_printf("Total ticks      : %d\n", (long unsigned)total_time);
 #if HAS_FLOAT
     ee_printf("Total time (secs): %f\n", time_in_secs(total_time));
     if (time_in_secs(total_time) > 0)
@@ -377,7 +378,7 @@ for (i = 0; i < MULTITHREAD; i++)
         total_errors++;
     }
 
-    ee_printf("Iterations       : %lu\n",
+    ee_printf("Iterations       : %d\n",
               (long unsigned)default_num_contexts * results[0].iterations);
     ee_printf("Compiler version : %s\n", COMPILER_VERSION);
     ee_printf("Compiler flags   : %s\n", COMPILER_FLAGS);
