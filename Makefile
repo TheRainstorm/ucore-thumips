@@ -75,8 +75,8 @@ INCLUDES  := $(addprefix -I,$(SRC_DIR))
 INCLUDES  += -I$(SRCDIR)/include
 
 ifeq  ($(ON_FPGA), y)
-USER_APPLIST:= sh ls cat
-INITRD_BLOCK_CNT:=700 
+USER_APPLIST:= sh ls cat pwd hello cqu_logo
+INITRD_BLOCK_CNT:=1400
 FPGA_LD_FLAGS += -S
 MACH_DEF := -DMACH_FPGA
 else
