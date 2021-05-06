@@ -75,8 +75,8 @@ INCLUDES  := $(addprefix -I,$(SRC_DIR))
 INCLUDES  += -I$(SRCDIR)/include
 
 ifeq  ($(ON_FPGA), y)
-USER_APPLIST:= sh ls cat pwd hello cqu_logo
-INITRD_BLOCK_CNT:=1400
+USER_APPLIST:= sh ls cat pwd hello cqu_logo soc_timer
+INITRD_BLOCK_CNT:=2000
 FPGA_LD_FLAGS += -S
 MACH_DEF := -DMACH_FPGA
 else
@@ -152,7 +152,6 @@ clean:
 	-rm -rf $(OBJDIR)
 
 qemu: $(OBJDIR)/ucore-kernel-initrd
-	scp obj/ucore-kernel-initrd JinyangYuan@yfy2:D:\\dev\\0_kernel
 	$(QEMU) $(QEMUOPTS) -kernel $(OBJDIR)/ucore-kernel-initrd
 
 qemu2: $(OBJDIR)/ucore-kernel-initrd

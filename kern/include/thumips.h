@@ -77,13 +77,13 @@ outw(uint32_t port, uint32_t data) {
 /* board specification */
 #define ISA_BASE        0xbfd00000
 #ifdef MACH_FPGA
-#define COM1            (ISA_BASE+0x140000)
+#define COM1            (0xbfe40000)
 #define COM1_IRQ        4
-#define COM1_BAUD_DDL   0x23
+#define COM1_BAUD_DDL   0x23    //时钟频率为33Mhz下，波特率为57600
+
+#define SOC_TIMER_ADDR  0xbfd0e000
 #else /*QEMU*/
-#define COM1            (ISA_BASE+0x3F8)
-#define COM1_IRQ        4
-#define COM1_BAUD_DDL   (115200/9600)
+//使用龙芯的qemu, -M 指定ls232
 #endif
 
 #define TIMER0_IRQ       7

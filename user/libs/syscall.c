@@ -87,6 +87,16 @@ sys_gettime(void) {
     return syscall(SYS_gettime);
 }
 
+size_t
+sys_gettime_confreg(void) {
+    return (size_t)syscall(SYS_gettime_confreg);
+}
+
+int
+sys_settime_confreg(size_t t) {
+    return syscall(SYS_settime_confreg, t);
+}
+
 int
 sys_exec(const char *name, int argc, const char **argv) {
     return syscall(SYS_exec, name, argc, argv);

@@ -12,6 +12,8 @@ int sys_putc(int c);
 int sys_pgdir(void);
 int sys_sleep(unsigned int time);
 size_t sys_gettime(void);
+size_t sys_gettime_confreg(void);  //读取soc中计时器外设的值
+int sys_settime_confreg(size_t);  //读取soc中计时器外设的值
 
 struct stat;
 struct dirent;
