@@ -1,7 +1,7 @@
 CFLAGS := -fno-builtin-fprintf -fno-builtin -nostdlib  -nostdinc -g  -EL -G0 -fno-delayed-branch -Wa,-O3 -fno-pic -mno-abicalls -mno-shared -mfp32 -ggdb -gstabs
 CFLAGS += -I../../libs -I../../../kern/include -I.
 CFLAGS += -DITERATIONS=0
-CFLAGS += -DFLAGS_STR=\"-O3\"
+CFLAGS += -O3 -DFLAGS_STR=\"-O3\"
 
 FPGA_LD_FLAGS = -S
 
