@@ -154,6 +154,10 @@ clean:
 	-rm -rf $(OBJDIR)
 	make -C user/app/coremark clean
 
+copy:
+	make
+	scp obj/ucore-kernel-initrd yfy:D:\\dev\\run_os\\kernel
+
 qemu: $(OBJDIR)/ucore-kernel-initrd
 	$(QEMU) $(QEMUOPTS) -kernel $(OBJDIR)/ucore-kernel-initrd
 
