@@ -3,7 +3,7 @@
 
 void
 sleepy(int pid) {
-    int i, time = 100;
+    int i, time = 1000;
     for (i = 0; i < 10; i ++) {
         sleep(time);
         cprintf("sleep %d x %d slices.\n", i + 1, time);

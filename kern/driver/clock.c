@@ -7,7 +7,7 @@
 
 volatile size_t ticks;
 
-#define TIMER0_INTERVAL  1000000 
+#define TIMER0_INTERVAL  18500   //37MHz / 2 /1000(即每tick 1/1000秒)
 
 static void reload_timer()
 {
