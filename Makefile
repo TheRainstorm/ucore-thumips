@@ -75,9 +75,9 @@ INCLUDES  := $(addprefix -I,$(SRC_DIR))
 INCLUDES  += -I$(SRCDIR)/include
 
 ifeq  ($(ON_FPGA), y)
-USER_APPLIST:= sh ls cat pwd hello cqu_logo soc_timer
+USER_APPLIST:= sh ls cat pwd hello cqu_logo soc_timer sleep test_gpio
 USER_APPLIST2:= coremark
-INITRD_BLOCK_CNT:=2000 
+INITRD_BLOCK_CNT:=2200 
 FPGA_LD_FLAGS += -S
 MACH_DEF := -DMACH_FPGA
 else
@@ -153,7 +153,9 @@ clean:
 	-rm -rf boot/loader.o boot/loader boot/loader.bin
 	-rm -rf $(OBJDIR)
 	make -C user/app/coremark clean
-
+copy:
+	make
+	scp obj/ucore-kernel-initrd yfy:D:\\dev\\run_os\\kernel
 qemu: $(OBJDIR)/ucore-kernel-initrd
 	$(QEMU) $(QEMUOPTS) -kernel $(OBJDIR)/ucore-kernel-initrd
 

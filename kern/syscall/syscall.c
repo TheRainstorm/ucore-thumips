@@ -102,6 +102,32 @@ sys_settime_confreg(uint32_t arg[]) {
     return 0;
 }
 
+static uint32_t
+sys_pread(uint32_t arg[]) {
+    uintptr_t base = (uintptr_t)arg[0];
+    uint32_t value;
+    asm volatile(
+        "lw %0, 0(%1)\n\t"
+        :"=r"(value)
+        :"r"(base)
+        :
+        );
+    return value;
+}
+
+static int
+sys_pwrite(uint32_t arg[]) {
+    uintptr_t base = (uintptr_t)arg[0];
+    uint32_t value = (uint32_t)arg[1];
+    asm volatile(
+        "sw %1, 0(%0)\n\t"
+        :
+        :"r"(base), "r"(value)
+        :
+        );
+    return 0;
+}
+
 static int
 sys_sleep(uint32_t arg[]) {
     unsigned int time = (unsigned int)arg[0];
@@ -209,6 +235,8 @@ static int (*syscalls[])(uint32_t arg[]) = {
   [SYS_getcwd]            sys_getcwd,
   [SYS_getdirentry]       sys_getdirentry,
   [SYS_dup]               sys_dup,
+  [SYS_pread]             sys_pread,
+  [SYS_pwrite]            sys_pwrite,
   [SYS_gettime_confreg]   sys_gettime_confreg,
   [SYS_settime_confreg]   sys_settime_confreg
 };

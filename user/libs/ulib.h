@@ -36,6 +36,8 @@ void print_pgdir(void);
 int sleep(unsigned int time);
 unsigned int gettime_msec(void);
 int __exec(const char *name, const char **argv);
+uint32_t pread(uintptr_t base);             //从外设地址base读取4B
+int pwrite(uintptr_t base, uint32_t value); //向外设地址base写入4B
 
 #define __exec0(name, path, ...)                \
 ({ const char *argv[] = {path, ##__VA_ARGS__, NULL}; __exec(name, argv); })

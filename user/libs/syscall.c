@@ -97,6 +97,16 @@ sys_settime_confreg(size_t t) {
     return syscall(SYS_settime_confreg, t);
 }
 
+uint32_t
+sys_pread(uintptr_t base) {
+    return (uint32_t)syscall(SYS_pread, base);
+}
+
+int
+sys_pwrite(uintptr_t base, uint32_t value) {
+    return syscall(SYS_pwrite, base, value);
+}
+
 int
 sys_exec(const char *name, int argc, const char **argv) {
     return syscall(SYS_exec, name, argc, argv);

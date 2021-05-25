@@ -71,6 +71,13 @@ gettime_msec(void) {
     return (unsigned int)sys_gettime();
 }
 
+uint32_t pread(uintptr_t base){
+    return sys_pread(base);
+}
+int pwrite(uintptr_t base, uint32_t value){
+    return sys_pwrite(base, value);
+}
+
 int
 __exec(const char *name, const char **argv) {
     int argc = 0;
