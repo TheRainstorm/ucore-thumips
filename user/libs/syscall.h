@@ -12,7 +12,6 @@ int sys_putc(int c);
 int sys_pgdir(void);
 int sys_sleep(unsigned int time);
 size_t sys_gettime(void);
-size_t sys_gettime_confreg(void);  //读取soc中计时器外设的值
 uint32_t sys_pread(uintptr_t base);             //从外设地址base读取4B
 int sys_pwrite(uintptr_t base, uint32_t value); //向外设地址base写入4B
 

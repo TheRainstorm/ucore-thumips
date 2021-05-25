@@ -31,8 +31,6 @@
 #define SYS_dup             130
 #define SYS_pread           131
 #define SYS_pwrite          132
-#define SYS_gettime_confreg 133
-#define SYS_settime_confreg 134
 /* OLNY FOR LAB6 */
 #define SYS_lab6_set_priority 255
 

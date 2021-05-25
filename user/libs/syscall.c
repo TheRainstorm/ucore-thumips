@@ -87,16 +87,6 @@ sys_gettime(void) {
     return syscall(SYS_gettime);
 }
 
-size_t
-sys_gettime_confreg(void) {
-    return (size_t)syscall(SYS_gettime_confreg);
-}
-
-int
-sys_settime_confreg(size_t t) {
-    return syscall(SYS_settime_confreg, t);
-}
-
 uint32_t
 sys_pread(uintptr_t base) {
     return (uint32_t)syscall(SYS_pread, base);

@@ -74,34 +74,6 @@ sys_gettime(uint32_t arg[]) {
     return (int)ticks;
 }
 
-static int
-sys_gettime_confreg(uint32_t arg[]) {
-    unsigned int _contval;
-    asm volatile(
-        // "lui $25, %hi(SOC_TIMER_ADDR)\n\t"
-        // "lw %0,-%lo(SOC_TIMER_ADDR)($25)\n\t"    //0xbfd0_e000
-        "lui $25, 0xbfd1\n\t"
-        "lw %0,-0x2000($25)\n\t"    //0xbfd0_e000
-        :"=r"(_contval)
-        :
-        :"$25"
-        );
-    return (int)_contval;
-}
-
-static int
-sys_settime_confreg(uint32_t arg[]) {
-    size_t t = (size_t)arg[0];
-    asm volatile(
-        "lui $25, 0xbfd1\n\t"
-        "sw %0,-0x2000($25)\n\t"    //0xbfd0_e000
-        :
-        :"r"(t)
-        :"$25"
-        );
-    return 0;
-}
-
 static uint32_t
 sys_pread(uint32_t arg[]) {
     uintptr_t base = (uintptr_t)arg[0];
@@ -237,8 +209,6 @@ static int (*syscalls[])(uint32_t arg[]) = {
   [SYS_dup]               sys_dup,
   [SYS_pread]             sys_pread,
   [SYS_pwrite]            sys_pwrite,
-  [SYS_gettime_confreg]   sys_gettime_confreg,
-  [SYS_settime_confreg]   sys_settime_confreg
 };
 
 #define NUM_SYSCALLS        ((sizeof(syscalls)) / (sizeof(syscalls[0])))
