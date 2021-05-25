@@ -9,7 +9,6 @@ int vcprintf(const char *fmt, va_list ap);
 int cprintf(const char *fmt, ...);
 #define printf cprintf
 void cputchar(int c);
-int getchar(void);
 
 void printhex(unsigned int x);
 void printbase10(int x);
@@ -17,6 +16,12 @@ void printbase10(int x);
 /* kern/libs/readline.c */
 char *readline(const char *prompt);
 
+int vfprintf(int fd, const char *fmt, va_list ap);
+int fprintf(int fd, const char *fmt, ...);
+
+int cputs(const char *str);
+int getchar();
+char *gets(char * buffer, int bufsize);
 
 #endif /* !__LIBS_STDIO_H__ */
 

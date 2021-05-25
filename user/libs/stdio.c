@@ -129,3 +129,48 @@ fprintf(int fd, const char *fmt, ...) {
     return cnt;
 }
 
+int getchar(){
+  int c, ret;
+  if ((ret = read(0, &c, sizeof(char))) <= 0) {
+      return -1;
+  }
+
+  cputchar(c);
+  return c;
+}
+
+char *gets(char * buffer, int bufsize) {
+    int ret, i = 0;
+    while (1) {
+        char c;
+        if ((ret = read(0, &c, sizeof(char))) < 0) {
+            return NULL;
+        }
+        else if (ret == 0) {
+            if (i > 0) {
+                buffer[i] = '\0';
+                break;
+            }
+            return NULL;
+        }
+
+        if (c == 3) {
+            return NULL;
+        }
+        else if (c >= ' ' && i < bufsize - 1) {
+            cputchar(c);
+            buffer[i ++] = c;
+        }
+        else if (c == '\b' && i > 0) {
+            cputchar(c);
+            i --;
+        }
+        else if (c == '\n' || c == '\r') {
+            cputchar('\r'); //use CRLF
+            cputchar('\n');
+            buffer[i] = '\0';
+            break;
+        }
+    }
+    return buffer;
+}
