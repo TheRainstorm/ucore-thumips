@@ -80,10 +80,11 @@ outw(uint32_t port, uint32_t data) {
 #define COM1            (0xbfe40000)
 #define COM1_IRQ        4
 #define COM1_BAUD_DDL   0x23    //时钟频率为33Mhz下，波特率为57600
-
-#define SOC_TIMER_ADDR  0xbfd0e000
 #else /*QEMU*/
 //使用龙芯的qemu, -M 指定ls232
+#define COM1            (0xbfe40000)
+#define COM1_IRQ        3
+#define COM1_BAUD_DDL   0x23    //时钟频率为33Mhz下，波特率为57600
 #endif
 
 #define TIMER0_IRQ       7

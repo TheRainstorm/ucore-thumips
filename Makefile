@@ -81,8 +81,10 @@ INITRD_BLOCK_CNT:=2200
 FPGA_LD_FLAGS += -S
 MACH_DEF := -DMACH_FPGA
 else
-USER_APPLIST:= pwd cat sh ls forktest yield hello faultreadkernel faultread badarg waitkill pgdir exit sleep
-# 2M
+USER_APPLIST:= sh ls cat pwd hello cqu_logo soc_timer sleep test_gpio
+USER_APPLIST2:= coremark
+# USER_APPLIST:= pwd cat sh ls forktest yield hello faultreadkernel faultread badarg waitkill pgdir exit sleep
+# # 2M
 INITRD_BLOCK_CNT:=4000 
 MACH_DEF := -DMACH_QEMU
 endif
@@ -159,7 +161,8 @@ copy:
 qemu: $(OBJDIR)/ucore-kernel-initrd
 	$(QEMU) $(QEMUOPTS) -kernel $(OBJDIR)/ucore-kernel-initrd
 
-qemu2: $(OBJDIR)/ucore-kernel-initrd
+qemu2:
+	make ON_FPGA=n
 	$(QEMU) $(QEMUOPTS) -kernel $(OBJDIR)/ucore-kernel-initrd -S -s
 
 gdb:
