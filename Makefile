@@ -75,13 +75,13 @@ INCLUDES  := $(addprefix -I,$(SRC_DIR))
 INCLUDES  += -I$(SRCDIR)/include
 
 ifeq  ($(ON_FPGA), y)
-USER_APPLIST:= sh ls cat pwd hello cqu_logo soc_timer sleep test_gpio guess_num test_stdio
+USER_APPLIST:= sh ls cat pwd hello cqu_logo soc_timer sleep test_gpio guess_num get_prime
 USER_APPLIST2:= coremark
 INITRD_BLOCK_CNT:=2500 
 FPGA_LD_FLAGS += -S
 MACH_DEF := -DMACH_FPGA
 else
-USER_APPLIST:= sh ls cat pwd hello cqu_logo soc_timer sleep test_gpio guess_num test_stdio
+USER_APPLIST:= sh ls cat pwd hello cqu_logo soc_timer sleep test_gpio guess_num  get_prime
 USER_APPLIST2:= coremark
 # USER_APPLIST:= pwd cat sh ls forktest yield hello faultreadkernel faultread badarg waitkill pgdir exit sleep
 # # 2M
